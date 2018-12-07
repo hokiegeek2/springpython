@@ -26,7 +26,7 @@ from threadpool import ThreadPool, WorkRequest, NoResultsPending
 # Spring Python
 from springpython.util import TRACE1
 from springpython.context import InitializingObject
-from springpython.jms import WebSphereMQJMSException, NoMessageAvailableException
+from springpython.jms import WebSphereMQJMSException as NoMessageAvailableException
 
 class MessageHandler(object):
     def handle(self, message):
@@ -53,13 +53,13 @@ class WebSphereMQListener(Component):
                 
                 try:
                     self.handlers_pool.poll()
-                except NoResultsPending, e:
+                except NoResultsPending as e:
                     pass
 
-            except NoMessageAvailableException, e:
+            except NoMessageAvailableException as e:
                 self.logger.log(TRACE1, "Consumer did not receive a message. %s" % self._get_destination_info())
                 
-            except WebSphereMQJMSException, e:
+            except WebSphereMQJMSException as e:
                 self.logger.error("%s in run, e.completion_code=[%s], "
                     "e.reason_code=[%s]" % (e.__class__.__name__, e.completion_code, e.reason_code))
                 raise

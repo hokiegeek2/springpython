@@ -64,7 +64,7 @@ class AbstractUserDetailsAuthenticationProvider(AuthenticationProvider):
 
             try:
                 user = self.retrieve_user(username, authentication)
-            except UsernameNotFoundException, notFound:
+            except UsernameNotFoundException as notFound:
                 if self.hide_user_not_found_exceptions:
                     raise BadCredentialsException("UsernameNotFound: Bad credentials")
                 else:
@@ -86,7 +86,7 @@ class AbstractUserDetailsAuthenticationProvider(AuthenticationProvider):
         # about account status unless they presented the correct credentials
         try:
             self.additional_auth_checks(user, authentication)
-        except AuthenticationException, exception:
+        except AuthenticationException as exception:
             if cache_was_used:
                 # There was a problem, so try again after checking we're using latest data (ie not from the cache)
                 cache_was_used = False
@@ -137,7 +137,7 @@ class DaoAuthenticationProvider(AbstractUserDetailsAuthenticationProvider):
 
         try:
             loaded_user = self.user_details_service.load_user(username)
-        except DataAccessException, repositoryProblem:
+        except DataAccessException as repositoryProblem:
             raise AuthenticationServiceException(repositoryProblem)
 
         if loaded_user is None:
@@ -193,7 +193,7 @@ class ReflectionSaltSource(SaltSource):
         try:
             reflectionMethod = getattr(user, self.user_prop_to_use)
             return reflectionMethod()
-        except Exception, e:
+        except Exception as e:
             raise AuthenticationServiceException(e);
 
 

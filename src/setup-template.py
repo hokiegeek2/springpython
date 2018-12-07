@@ -22,12 +22,12 @@ try:
 except ImportError:
     from setuptools import setup
 
-if sys.version_info < (2, 6):
-    print "Spring Python only supports Python 2.6 and higher"
-    sys.exit(1)
+#if sys.version_info < (2, 6):
+#    print "Spring Python only supports Python 2.6 and higher"
+#    sys.exit(1)
 
 setup(name='springpython',
-      version='${version}',
+      version='3.6',
       description='Spring Python',
       long_description='Spring Python is an offshoot of the Java-based SpringFramework, targeted for Python. Spring provides many useful features, and I wanted those same features available when working with Python.',
       author='Greg L. Turnquist',
@@ -35,7 +35,7 @@ setup(name='springpython',
       url='http://springpython.webfactional.com',
       platforms = ["Python >= 2.6"],
       license='Apache Software License (http://www.apache.org/licenses/LICENSE-2.0)',
-      scripts=['plugins/coily'],
+      scripts=['plugins/coily-template'],
       packages=['springpython',
                 'springpython.aop',
                 'springpython.jms',

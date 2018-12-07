@@ -134,7 +134,7 @@ class LabelBasedAclVoter(AbstractAclVoter):
         self.logger = logging.getLogger("springpython.security.vote.LabelBasedAclVoter")
 
     def supports(self, attr):
-    	if isinstance(attr, list) or (attr == self.attr_indicating_labeled_op):
+        if isinstance(attr, list) or (attr == self.attr_indicating_labeled_op):
             return True
         else:
             return False

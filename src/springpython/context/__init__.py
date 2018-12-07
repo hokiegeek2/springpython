@@ -96,7 +96,7 @@ class ApplicationContext(ObjectContainer):
                         
                     destroy_method = getattr(obj, destroy_method_name)
                     
-                except Exception, e:
+                except Exception as e:
                     self.logger.error("Could not destroy object '%s', exception '%s'" % (obj_name, format_exc()))
                     
                 else:
@@ -105,7 +105,7 @@ class ApplicationContext(ObjectContainer):
                             self.logger.debug("About to destroy object '%s'" % obj_name)
                             destroy_method()
                             self.logger.debug("Successfully destroyed object '%s'" % obj_name)
-                        except Exception, e:
+                        except Exception as e:
                             self.logger.error("Could not destroy object '%s', exception '%s'" % (obj_name, format_exc()))
                     else:
                         self.logger.error("Could not destroy object '%s', " \

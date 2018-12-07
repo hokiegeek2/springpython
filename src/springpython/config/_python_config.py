@@ -57,7 +57,7 @@ class PythonConfig(Config, ApplicationContextAware):
                                 scope=wrapper.scope, lazy_init=wrapper.lazy_init,
                                 abstract=wrapper.abstract, parent=wrapper.parent)
                         objects.append(c)
-                except KeyError, e:
+                except KeyError as e:
                     pass
         self.logger.debug("==============================================================")
         return objects
@@ -66,7 +66,7 @@ class PythonConfig(Config, ApplicationContextAware):
         super(PythonConfig, self).set_app_context(app_context)
         try:
             _object_context[(self,)]["container"] = app_context
-        except KeyError, e:
+        except KeyError as e:
             _object_context[(self,)] = {"container": app_context}
 
 

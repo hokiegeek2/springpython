@@ -25,7 +25,7 @@ import sys
 import traceback
 
 from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
-from xmlrpclib import ServerProxy, Error, Transport
+from xmlrpclib import ServerProxy, Error as Transport
 
 # Spring Python
 from springpython.remoting.http import CAValidatingHTTPS
@@ -118,7 +118,7 @@ class SSLServer(object, SimpleXMLRPCServer):
                     sock.close()
                     return False
 
-        except Exception, e:
+        except Exception as e:
 
             # It was either an error on our side or the client didn't send the
             # certificate even though self.cert_reqs was CERT_OPTIONAL (it couldn't

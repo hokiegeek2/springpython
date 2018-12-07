@@ -102,9 +102,9 @@ class AuthenticationManager:
                 if results:
                     results.setAuthenticated(True)
                     return results
-            except DisabledException, e: # Disabled means account found, but invalid
+            except DisabledException as e: # Disabled means account found, but invalid
                 raise e
-            except AuthenticationException, e:
+            except AuthenticationException as e:
                 authenticationException = e
         raise authenticationException
 

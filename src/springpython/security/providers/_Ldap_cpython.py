@@ -90,7 +90,7 @@ class BindAuthenticator(object):
             l.simple_bind_s(dn, authentication.password)
             self.logger.debug("Successfully bound to server!")
             return (result_set[0],l)
-        except Exception, e:
+        except Exception as e:
             self.logger.debug("Error %s" % e)
             raise BadCredentialsException("Invalid password")
         

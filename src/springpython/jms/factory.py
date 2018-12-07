@@ -37,8 +37,7 @@ except ImportError:
 from springpython.context import DisposableObject
 from springpython.jms.core import reserved_attributes, TextMessage
 from springpython.util import TRACE1, synchronized
-from springpython.jms import JMSException, WebSphereMQJMSException, \
-    NoMessageAvailableException, DELIVERY_MODE_NON_PERSISTENT, \
+from springpython.jms import JMSException as WebSphereMQJMSException, NoMessageAvailableException, DELIVERY_MODE_NON_PERSISTENT, \
     DELIVERY_MODE_PERSISTENT
 
 
@@ -146,7 +145,7 @@ class WebSphereMQConnectionFactory(DisposableObject):
                 self._open_receive_queues_cache.clear()
                 self._open_dynamic_queues_cache.clear()
                 self.logger.info("Caches cleared")
-            except Exception, e:
+            except Exception as e:
                 try:
                     self.logger.error("Could not clear the caches. Exception [%s]" % format_exc())
                 except:
@@ -155,7 +154,7 @@ class WebSphereMQConnectionFactory(DisposableObject):
                 self.logger.info("Disconnecting from queue manager [%s]" % self.queue_manager)
                 self.mgr.disconnect()
                 self.logger.info("Disconnected from queue manager [%s]" % self.queue_manager)
-            except Exception, e:
+            except Exception as e:
                 try:
                     self.logger.error("Could not disconnect from queue manager [%s], exception [%s] " % (self.queue_manager,
                         format_exc()))
@@ -205,10 +204,10 @@ class WebSphereMQConnectionFactory(DisposableObject):
 
         try:
             self.mgr.connectWithOptions(self.queue_manager, cd=cd, opts=connect_options, sco=sco)
-        except self.mq.MQMIError, e:
+        except self.mq.MQMIError as e:
             exc = WebSphereMQJMSException(e, e.comp, e.reason)
             raise exc
-        except Exception, e:
+        except Exception as e:
             self.logger.error("Could not connect to queue manager, e=[%s]" % e)
             exc = WebSphereMQJMSException(e, None, None)
             raise exc
@@ -285,7 +284,7 @@ class WebSphereMQConnectionFactory(DisposableObject):
 
         try:
             queue.put(body, md)
-        except self.mq.MQMIError, e:
+        except self.mq.MQMIError as e:
             self.logger.error("MQMIError in queue.put, e.comp [%s], e.reason [%s] " % (
                 e.comp, e.reason))
             exc = WebSphereMQJMSException(e, e.comp, e.reason)
@@ -345,7 +344,7 @@ class WebSphereMQConnectionFactory(DisposableObject):
 
             return self._build_text_message(md, message)
 
-        except self.mq.MQMIError, e:
+        except self.mq.MQMIError as e:
             if e.reason == self.CMQC.MQRC_NO_MSG_AVAILABLE:
                 text = "No message available for destination [%s], " \
                     "wait_interval [%s] ms" % (destination, wait_interval)

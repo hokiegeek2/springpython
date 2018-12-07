@@ -147,7 +147,7 @@ class TransactionTemplate(DefaultTransactionDefinition):
             self.logger.debug("Execute the steps inside the transaction")
             result = transactionCallback.do_in_transaction(status)
             self.tx_manager.commit(status)
-        except Exception, e:
+        except Exception as e:
             self.logger.debug("Exception: (%s)" % e)
             self.tx_manager.rollback(status)
             raise e
@@ -211,7 +211,7 @@ class TransactionalInterceptor(MethodInterceptor):
         self.logger.debug("Call TransactionTemplate")
         try:
             results = tx_template.execute(tx_def())
-        except Exception, e:
+        except Exception as e:
             self.logger.debug("Exception => %s" % e)
             raise e
         self.logger.debug("Return from TransactionTemplate")
@@ -303,7 +303,7 @@ class AutoTransactionalObject(ObjectPostProcessor):
                 if wrapper.func_name == "transactional_wrapper":  # name of @transactional's wrapper method
                     self.logger.debug("Linking tx_manager with %s" % name)
                     wrapper.func_globals["tx_manager"] = self.tx_manager
-            except KeyError, e:   # If the method is NOT wrapped, there will be no _call_ attribute
+            except KeyError as e:   # If the method is NOT wrapped, there will be no _call_ attribute
                 pass
         return obj
 

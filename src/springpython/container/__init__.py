@@ -70,7 +70,7 @@ class ObjectContainer(object):
                 
             return self.objects[name]
             
-        except KeyError, e:
+        except KeyError as e:
             self.logger.debug("Did NOT find object '%s' in the singleton storage." % name)
             try:
                 object_def = self.object_defs[name]
@@ -89,7 +89,7 @@ class ObjectContainer(object):
                     raise InvalidObjectScope("Don't know how to handle scope %s" % self.object_defs[name].scope)
                 
                 return comp
-            except KeyError, e:
+            except KeyError as e:
                 self.logger.error("Object '%s' has no definition!" % name)
                 raise e
             

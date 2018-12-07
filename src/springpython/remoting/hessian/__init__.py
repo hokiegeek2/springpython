@@ -34,7 +34,7 @@ class HessianProxyFactory(object):
         if name == "service_url":
             return self.service_url
         elif name in ["post_process_before_initialization", "post_process_after_initialization"]:
-            raise AttributeError, name
+            raise AttributeError
         else:
             if self.client_proxy is None:
                 self.__dict__["client_proxy"] = Hessian(self.service_url)

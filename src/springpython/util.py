@@ -19,7 +19,7 @@ from threading import RLock, currentThread
 
 try:
     from cStringIO import StringIO
-except ImportError, e:
+except ImportError as e:
     from StringIO import StringIO
 
 
@@ -43,7 +43,7 @@ class synchronized(object):
                 self.logger.log(TRACE1, "Acquired lock [%s] thread [%s]" % (self.lock, currentThread()))
                 try:
                     return f(*args, **kwargs)
-                except Exception, e:
+                except Exception as e:
                     raise
             finally:
                 self.lock.release()

@@ -41,14 +41,6 @@ import org.springframework.security.providers.ldap.authenticator.PasswordCompari
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken
 from jarray import array
 
-print """
-WARNING WARNING WARNING WARNING
-===============================
-This doesn't yet work. There is some issue with Jython.
-See http://bugs.jython.org/issue1489 and http://jira.springframework.org/browse/SESPRINGPYTHONPY-121 for more details.
-===============================
-WARNING WARNING WARNING WARNING
-"""
 
 class DefaultSpringSecurityContextSource(object):
     def __init__(self, url):
@@ -100,11 +92,11 @@ class DefaultLdapAuthoritiesPopulator(object):
         self._populator.setGroupRoleAttribute(self.group_role_attr)
         self._populator.setRolePrefix(self.role_prefix)
         self._populator.setConvertToUpperCase(self.convert_to_upper)
-        print "LdapAuthoritiesPopulator class loader %s" % self._populator.getClass().getClassLoader()
+        print("LdapAuthoritiesPopulator class loader %s" % self._populator.getClass().getClassLoader())
 
     def get_granted_auths(self, user_details, username):
         results = self._populator.getGrantedAuthorities(user_details, username)
-        print results
+        print(results)
         return results
         
 class LdapAuthenticationProvider(AuthenticationProvider):
@@ -116,7 +108,7 @@ class LdapAuthenticationProvider(AuthenticationProvider):
             
     def authenticate(self, authentication):
         user_details = self.ldap_authenticator.authenticate(authentication)
-        print "Context class loader %s" % user_details.getClass().getClassLoader()
+        print("Context class loader %s" % user_details.getClass().getClassLoader())
         from copy import deepcopy
         results = deepcopy(authentication)
         results.granted_auths = self.ldap_authorities_populator.get_granted_auths(user_details, authentication.username)

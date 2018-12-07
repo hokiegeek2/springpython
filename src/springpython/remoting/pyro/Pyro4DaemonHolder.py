@@ -66,7 +66,7 @@ def deregister(service_name, host, port):
         pyro_threads[(host, port)].pyro_daemon.unregister(serviceList[(service_name, host, port)])
         del(serviceList[(service_name, host, port)])
 
-        def get_address((service_name, host, port)):
+        def get_address(service_name, host, port):
             return (host, port)
 
         if len([True for x in serviceList.keys() if get_address(x) == (host, port)]) == 0:
@@ -83,7 +83,7 @@ def shutdown(daemon_host, daemon_port):
         pyro_threads[(daemon_host, daemon_port)].shutdown()
         time.sleep(1.0)
         del(pyro_threads[(daemon_host, daemon_port)])
-    except Exception, e:
+    except Exception as e:
         logger.debug("Failed to shutdown %s:%s => %s" % (daemon_host, daemon_port, e))
 
 class _Pyro4Thread(threading.Thread):

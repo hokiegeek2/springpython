@@ -71,13 +71,13 @@ class DatabaseTemplate(object):
                     cursor.execute(sql_statement)
                     rows_affected = cursor.rowcount
                     lastrowid = cursor.lastrowid
-            except Exception, e:
+            except Exception as e:
                 self.logger.debug("execute.execute: Trapped %s while trying to execute '%s'" % (e, sql_statement))
                 error = e
         finally:
             try:
                 cursor.close()
-            except Exception, e:
+            except Exception as e:
                 self.logger.debug("execute.close: Trapped %s, and throwing away." % e)
             
         if error:
@@ -131,13 +131,13 @@ class DatabaseTemplate(object):
                     cursor.execute(sql_query)
                 results = cursor.fetchall()
                 metadata = [{"name":row[0], "type_code":row[1], "display_size":row[2], "internal_size":row[3], "precision":row[4], "scale":row[5], "null_ok":row[6]} for row in cursor.description]
-            except Exception, e:
+            except Exception as e:
                 self.logger.debug("query_for_list.execute: Trapped %s while trying to execute '%s'" % (e, sql_query))
                 error = e
         finally:
             try:
                 cursor.close()
-            except Exception, e:
+            except Exception as e:
                 self.logger.debug("query_for_list.close: Trapped %s, and throwing away." % e)
 
         if error:

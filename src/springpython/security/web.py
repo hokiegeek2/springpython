@@ -13,7 +13,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.       
 """
-import Cookie
 import logging
 import re
 import pickle
@@ -97,11 +96,11 @@ class FilterChainProxy(Filter, ApplicationContextAware):
         filterChain = FilterChain()
         for urlPattern, chainOfFilters in self.filterInvocationDefinitionSource:
             if re.compile(urlPattern).match(environ["PATH_INFO"].lower()):
-		self.logger.debug("We had a match of %s against %s" % (environ["PATH_INFO"], urlPattern))
+                self.logger.debug("We had a match of %s against %s" % (environ["PATH_INFO"], urlPattern))
                 for filter in chainOfFilters:
                         try:
                             filterChain.addFilter(self.app_context.get_object(filter))
-                        except AttributeError, e:
+                        except AttributeError as e:
                             filterChain.addFilter(filter)
                 break
 
@@ -239,7 +238,7 @@ class AuthenticationProcessingFilter(Filter):
             self.logger.debug("Trying to authenticate %s using the authentication manager" % token)
             SecurityContextHolder.getContext().authentication = self.auth_manager.authenticate(token)
             self.logger.debug("%s was successfully authenticated, access GRANTED." % token.username)
-        except AuthenticationException, e:
+        except AuthenticationException as e:
             self.logger.debug("Authentication failure, access DENIED.")
             raise
 
@@ -319,7 +318,7 @@ class FilterSecurityInterceptor(Filter, AbstractSecurityInterceptor):
 
     def __call__(self, environ, start_response):
         httpSession = self.sessionStrategy.getHttpSession(environ)
-	self.logger.debug("Trying to check if you are authorized for this.")
+        self.logger.debug("Trying to check if you are authorized for this.")
         fi = FilterInvocation(environ)
         token = self.before_invocation(fi)
         if httpSession is not None:
@@ -356,10 +355,10 @@ class ExceptionTranslationFilter(Filter):
     def __call__(self, environ, start_response):
         try:
             return self.doNextFilter(environ, start_response)
-        except AuthenticationException, e:
+        except AuthenticationException as e:
             self.logger.debug("AuthenticationException => %s, redirecting through authenticationEntryPoint" % e)
             return self.authenticationEntryPoint(environ, start_response)
-        except AccessDeniedException, e:
+        except AccessDeniedException as e:
             self.logger.debug("AccessDeniedException => %s, redirect through accessDeniedHandler" % e)
             return self.accessDeniedHandler(environ, start_response)
 
