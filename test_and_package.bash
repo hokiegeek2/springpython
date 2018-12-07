@@ -27,4 +27,3 @@
 #. ~/sp/bin/activate
 
 python build.py --clean --test --package
-python build.py --release

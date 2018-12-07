@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3.6
 """
    Copyright 2006-2011 SpringSource (http://springsource.com), All Rights Reserved 
 
@@ -49,11 +49,11 @@ p["packageDir"] = "%s/artifacts" % p["targetDir"]
 def load_properties(prop_dict, prop_file):
     "This function loads standard, java-style properties files into a dictionary."
     if os.path.exists(prop_file):
-        print "Reading property file " + prop_file
+        print("Reading property file " + prop_file)
         [prop_dict.update({prop.split("=")[0].strip(): prop.split("=")[1].strip()})
          for prop in open(prop_file).readlines() if not (prop.startswith("#") or prop.strip() == "")]
     else:
-        print "Unable to read property file " + prop_file
+        print("Unable to read property file " + prop_file)
 
 # Override defaults with a properties file
 load_properties(p, "springpython.properties")
@@ -65,22 +65,22 @@ load_properties(p, "springpython.properties")
 
 def usage():
     """This function is used to print out help either by request, or if an invalid option is used."""
-    print
-    print "Usage: python build.py [command]"
-    print
-    print "\t--help\t\t\tprint this help message"
-    print "\t--clean\t\t\tclean out this build by deleting the %s directory" % p["targetDir"]
-    print "\t--test\t\t\trun the test suite, leaving all artifacts in %s" % p["testDir"]
-    print "\t--suite [suite]\t\trun a specific test suite, leaving all artifacts in %s" % p["testDir"]
-    print "\t--coverage\t\trun the test suite with coverage analysis, leaving all artifacts in %s" % p["testDir"]
-    print "\t--debug-level [info|debug]\n\t\t\t\tthreshold of logging message when running tests or coverage analysis"
-    print "\t--package\t\tpackage everything up into a tarball for release to sourceforge in %s" % p["packageDir"]
-    print "\t--build-stamp [tag]\tfor --package, this specifies a special tag, generating version tag '%s.<tag>. springpython.properties can override with build.stamp'" % p["version"]
-    print "\t\t\t\tIf this option isn't used, default will be tag will be '%s.<current time>'" % p["version"]
-    print "\t--register\t\tregister this release with http://pypi.python.org/pypi"
-    print "\t--docs-sphinx\t\tgenerate Sphinx documentation"
-    print "\t--pydoc\t\t\tgenerate pydoc information"
-    print
+    print('')
+    print("Usage: python build.py [command]")
+    print('')
+    print("\t--help\t\t\tprint this help message")
+    print("\t--clean\t\t\tclean out this build by deleting the %s directory" % p["targetDir"])
+    print("\t--test\t\t\trun the test suite, leaving all artifacts in %s" % p["testDir"])
+    print("\t--suite [suite]\t\trun a specific test suite, leaving all artifacts in %s" % p["testDir"])
+    print("\t--coverage\t\trun the test suite with coverage analysis, leaving all artifacts in %s" % p["testDir"])
+    print("\t--debug-level [info|debug]\n\t\t\t\tthreshold of logging message when running tests or coverage analysis")
+    print("\t--package\t\tpackage everything up into a tarball for release to sourceforge in %s" % p["packageDir"])
+    print("\t--build-stamp [tag]\tfor --package, this specifies a special tag, generating version tag '%s.<tag>. springpython.properties can override with build.stamp'" % p["version"])
+    print("\t\t\t\tIf this option isn't used, default will be tag will be '%s.<current time>'" % p["version"])
+    print("\t--register\t\tregister this release with http://pypi.python.org/pypi")
+    print("\t--docs-sphinx\t\tgenerate Sphinx documentation")
+    print("\t--pydoc\t\t\tgenerate pydoc information")
+    print('')
 
 try:
     optlist, args = getopt.getopt(sys.argv[1:],
@@ -89,7 +89,7 @@ try:
                                    "register", "docs-sphinx", "pydoc"])
 except getopt.GetoptError:
     # print help information and exit:
-    print "Invalid command found in %s" % sys.argv
+    print("Invalid command found in %s" % sys.argv)
     usage()
     sys.exit(2)
 
@@ -105,7 +105,7 @@ build_stamp = "BUILD-%s" % datetime.now().strftime("%Y%m%d%H%M%S")
 ############################################################################
 
 def clean(dir):
-    print "Removing '%s' directory" % dir
+    print("Removing '%s' directory" % dir)
     if os.path.exists(".coverage"):
        os.remove(".coverage")
     if os.path.exists(dir):
@@ -130,7 +130,7 @@ def test(dir, test_suite, debug_level):
         if test_suite == "checkin": test_suite = "jython"
         _run_nose(argv=["", "--where=test/springpythontest", test_suite], debug_level=debug_level)
     except ImportError:
-        _run_nose(argv=["", "--with-nosexunit", "--source-folder=src", "--where=test/springpythontest", "--xml-report-folder=%s" % dir, test_suite], debug_level=debug_level)
+        _run_nose(argv=["", "--where=test/springpythontest", test_suite], debug_level=debug_level)
     
 def test_coverage(dir, test_suite, debug_level):
     """
@@ -205,7 +205,7 @@ def package(dir, version, s3bucket, src_filename, sample_filename):
         os.makedirs(dir)
 
     _substitute("src/plugins/coily-template", "src/plugins/coily", [("version", version)])
-    os.chmod("src/plugins/coily", 0755)
+    os.chmod("src/plugins/coily", 755)
     build("src", version, s3bucket, src_filename)
     build("samples", version, s3bucket, sample_filename)
     #os.remove("src/plugins/coily")
@@ -232,7 +232,7 @@ def register():
 
 def copy(src, dest, patterns):
     if not os.path.exists(dest):
-        print "+++ Creating " + dest
+        print("+++ Creating " + dest)
         os.makedirs(dest)
     
     [shutil.copy(file, dest) for pattern in patterns for file in glob(src + pattern)]
@@ -317,7 +317,7 @@ def create_pydocs():
 
     for file in os.listdir("."):
         if "springpython" not in file: continue
-        print "Altering appearance of %s" % file
+        print("Altering appearance of %s" % file)
         file_input = open(file).read()
         file_input = re.compile(top_color).sub("GREEN", file_input)
         file_input = re.compile(pkg_color).sub("GREEN", file_input)
@@ -375,11 +375,11 @@ for option in optlist:
         clean(p["targetDir"])
 
     if option[0] in ("--test"):
-        print "Running checkin tests..."
+        print("Running checkin tests...")
         test(p["testDir"], "checkin", debug_level)
 
     if option[0] in ("--suite"):
-        print "Running test suite %s..." % option[1]
+        print("Running test suite %s..." % option[1])
         test(p["testDir"], option[1], debug_level)
 
     if option[0] in ("--coverage"):

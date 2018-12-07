@@ -125,7 +125,7 @@ class Pyro4ServiceExporter(InitializingObject):
         if self.service_host is None: raise Exception("service_host must NOT be None")
         if self.service_port is None: raise Exception("service_port must NOT be None")
         self.logger.debug("Exporting %s as a Pyro service at %s:%s" % (self.service_name, self.service_host, self.service_port))
-	wrapping_obj = PyroWrapperObj(self.service)
+        wrapping_obj = PyroWrapperObj(self.service)
         Pyro4DaemonHolder.register(wrapping_obj, self.service_name, self.service_host, self.service_port)
             
 class PyroWrapperObj(object):
@@ -165,7 +165,7 @@ class Pyro4ProxyFactory(object):
         if name in ["service_url"]:
             return self.__dict__[name]
         elif name in ["post_process_before_initialization", "post_process_after_initialization"]:
-            raise AttributeError as name
+            raise AttributeError(name)
         else:
             if self.client_proxy is None:
                 self.__dict__["client_proxy"] = Pyro4.Proxy(self.service_url)

@@ -26,5 +26,5 @@
 # On project site
 #. ~/sp/bin/activate
 
-python build.py --clean --test
+python3.6 build.py --clean --test
 
