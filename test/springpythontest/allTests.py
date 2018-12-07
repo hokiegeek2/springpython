@@ -20,10 +20,10 @@ import sys
 
 if __name__ == "__main__":    
     module_name = sys.argv[1]
-    print "Trying to import module %s" % module_name
+    print("Trying to import module %s" % module_name)
     mod = __import__("%s" % module_name)
 
-    print mod
+    print(mod)
 
     logger = logging.getLogger("springpython")
     loggingLevel = logging.INFO

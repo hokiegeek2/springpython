@@ -27,7 +27,7 @@ from springpython.remoting.pyro import PyroServiceExporter
 
 class MySampleService(object):
     def hey(self):
-        print "You have just called the sample service!"
+        print("You have just called the sample service!")
 
 class MySampleServiceAppContext(PythonConfig):
     def __init__(self):
@@ -55,5 +55,5 @@ if __name__ == "__main__":
     logger.addHandler(ch)
 
 
-    print "Starting up context that exposese reported issue..."
+    print("Starting up context that exposese reported issue...")
     ctx = ApplicationContext(MySampleServiceAppContext()) 
